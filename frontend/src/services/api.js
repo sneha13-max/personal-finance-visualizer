@@ -1,6 +1,6 @@
 import axios from "axios";
-const API_URL = "http://localhost:5000/api/transactions";
-const BUDGET_API_URL = "http://localhost:5000/api/budgets";
+const API_URL = `${process.env.REACT_APP_API_URL}/transactions`;
+const BUDGET_API_URL = `${process.env.REACT_APP_API_URL}/budgets1`;
 
 export const getTransactions = async () => {
   const res = await fetch(API_URL);
