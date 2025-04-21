@@ -29,7 +29,7 @@ function App() {
     try {
       const { month, year } = getCurrentMonthYear();
       const res = await axios.get(
-        `http://localhost:5000/api/budgets/${month}/${year}`
+        `${process.env.REACT_APP_API_URL}/budgets/${month}/${year}`
       );
       const rawBudgets = res.data?.budgets || [];
 
