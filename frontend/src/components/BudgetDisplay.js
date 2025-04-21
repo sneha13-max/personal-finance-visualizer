@@ -26,7 +26,7 @@ const BudgetDisplay = ({ transactions }) => {
     try {
       const { month, year } = getCurrentMonthYear();
       const res = await axios.get(
-        `http://localhost:5000/api/budgets?month=${month}&year=${year}`
+        `${process.env.REACT_APP_API_URL}/budgets?month=${month}&year=${year}`
       );
       const rawBudgets = res.data?.budgets || [];
 
