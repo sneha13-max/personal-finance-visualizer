@@ -29,7 +29,7 @@ const BudgetForm = ({ fetchBudgets, setBudgets }) => {
     const year = now.getFullYear().toString(); // e.g., "2025"
 
     try {
-      await axios.post("http://localhost:5000/api/budgets/save", {
+      await axios.post(`${process.env.REACT_APP_API_URL}/budgets/save`, {
         month,
         year,
         budgets: Object.entries(budget).map(([category, amount]) => ({
