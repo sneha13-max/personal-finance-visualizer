@@ -16,14 +16,15 @@ connectDB();
 
 // Routes
 app.use("/api/transactions", require("./routes/transactionRoutes"));
-app.use("/api/budgets", require("./routes/budgetRoutes")); // Add this line for budgets
+app.use("/api/budgets", require("./routes/budgetRoutes"));
 
-// Define other routes as necessary (e.g., for user authentication or other features)
+// Health route
 app.get("/", (req, res) => {
   res.send("Hello from backend");
 });
 
+// Start server
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () =>
+app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
-);
+});
