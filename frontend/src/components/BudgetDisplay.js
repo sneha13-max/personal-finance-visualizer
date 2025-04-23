@@ -17,8 +17,8 @@ const BudgetDisplay = ({ transactions }) => {
 
   const getCurrentMonthYear = () => {
     const now = new Date();
-    const month = now.toLocaleString("default", { month: "short" }); // e.g., "Apr"
-    const year = now.getFullYear().toString(); // e.g., "2025"
+    const month = now.toLocaleString("default", { month: "short" });
+    const year = now.getFullYear().toString();
     return { month, year };
   };
 
@@ -47,7 +47,6 @@ const BudgetDisplay = ({ transactions }) => {
       .reduce((acc, txn) => acc + txn.amount, 0);
   };
 
-  // Chart data combining both budgeted and actual amounts
   const chartData = categories.map((category) => ({
     category,
     Budgeted: budgets[category] || 0,
@@ -59,35 +58,49 @@ const BudgetDisplay = ({ transactions }) => {
   }, []);
 
   return (
-    <div className="bg-white p-6 rounded shadow mt-6">
-      <h2 className="text-2xl font-semibold text-blue-600 mb-4">
-        Monthly Budget
+    <div className="bg-white p-6 rounded shadow mt-6 overflow-x-auto">
+      <h2 className="text-2xl font-semibold text-blue-600 mb-6">
+        Monthly Budget Overview
       </h2>
 
-      {/* Breakdown in text format */}
-      <div className="space-y-4 mb-8">
-        {categories.map((category) => (
-          <div key={category} className="flex justify-between">
-            <span className="font-semibold">{category}</span>
-            <div className="flex items-center space-x-4">
-              <span className="text-gray-600">
-                Budget: ₹{budgets[category] || 0}
-              </span>
-              <span className="text-gray-600">
-                Spent: ₹{getTotalSpent(category)}
-              </span>
-              <span className="text-gray-600">
-                Left: ₹{(budgets[category] || 0) - getTotalSpent(category)}
-              </span>
-            </div>
-          </div>
-        ))}
-      </div>
+      {/* Table Format */}
+      <table className="w-full table-auto border-collapse text-left mb-10">
+        <thead>
+          <tr className="bg-gray-100">
+            <th className="p-3">Category</th>
+            <th className="p-3">Budgeted (₹)</th>
+            <th className="p-3">Spent (₹)</th>
+            <th className="p-3">Left (₹)</th>
+          </tr>
+        </thead>
+        <tbody>
+          {categories.map((category) => {
+            const budget = budgets[category] || 0;
+            const spent = getTotalSpent(category);
+            const left = budget - spent;
 
-      {/* Budget vs Actual Bar Chart */}
-      <h3 className="text-xl font-semibold mb-2 text-gray-700">
+            return (
+              <tr key={category} className="border-t">
+                <td className="p-3 font-medium">{category}</td>
+                <td className="p-3">{budget}</td>
+                <td className="p-3">{spent}</td>
+                <td
+                  className={`p-3 font-semibold ${
+                    left < 0 ? "text-red-600" : "text-green-600"
+                  }`}
+                >
+                  {left}
+                </td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
+
+      {/* Chart */}
+      <h2 className="text-2xl font-semibold text-blue-600 mb-6">
         Budget vs Actual Spending
-      </h3>
+      </h2>
       <ResponsiveContainer width="100%" height={300}>
         <BarChart
           data={chartData}
